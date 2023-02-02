@@ -1,0 +1,57 @@
+---
+title: "MA [46]15 Homework 1"
+author: "Reshma Ramaiah"
+output: github_document
+---
+
+In this homework I'm analyzing the `msleep` dataset from package `ggplot2`.
+I start by loading the packages:
+
+```{r init, echo=TRUE, warning=FALSE}
+library(tidyverse)
+msleep
+```
+
+## Question 1
+
+```{r q1, echo=TRUE, warning=FALSE}
+ggplot(msleep) + 
+  geom_point(aes(x = bodywt, y = brainwt, color = vore)) + 
+  labs(x = "Body weight in kg", y = "Brain weight in kg", color = "Diet") +
+  scale_x_log10() + scale_y_log10() +
+  ggtitle("Lograthmic relationship between brain and body weight")
+```
+
+The relationship between body weight and brain weight of different animals look linear after the log transformations.
+
+## Question 2
+
+```{r q2, echo=TRUE}
+ggplot(msleep) + 
+  geom_boxplot(aes(x = vore, y = bodywt, color = vore),varwidth = TRUE) +
+  labs(x = "Diet", y = "Body weight in kg", color = "Diet") +
+  scale_y_log10() +
+  ggtitle("Distribution of body weight over different diets")
+```
+
+Animals belonging to different diet groups have different average body weight. Carnivores have the highest average body weight, whereas insects along with unknown animals have the least average body weight. Herbivores and omnivores almost have equal average body weight.
+
+## Question 3
+
+```{r q3}
+ggplot(msleep,aes(x = conservation, y = sleep_total/24, color = vore)) + 
+  geom_point(position = 'jitter')+
+  stat_summary(fun = mean, fun.min = min, fun.max = max, geom = "crossbar", color = 'blue') +
+  labs(x = "Conservation status", y = "Fraction of sleep per day", color = "Diet")+
+  ggtitle("Distribution of fraction of sleep per day")
+```
+
+From the figure it can be interpreted that animals with higher risk of extinction sleep longer in a day than animals with low risk of extinction.
+
+## Question 4
+
+```{r q4, echo=TRUE}
+ggplot(msleep, aes(x = conservation,fill=vore)) + 
+  geom_bar(width =1) +
+  coord_polar()
+```
